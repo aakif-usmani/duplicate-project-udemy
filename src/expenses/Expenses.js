@@ -20,16 +20,26 @@ const Expenses = () => {
   const dateChangeHandler = (event) => {
     setEnteredDate(event.target.value);
   };
-  setEnteredTitle("");
-  setEnteredDate("");
-  setEnteredAmount("");
+  const submitHandler = (event) => {
+    event.preventDefault();
+    const expenseData = {
+      title: enteredTitle,
+      amount: +enteredAmount,
+      date: new Date(enteredDate),
+    };
+    setEnteredTitle("");
+    setEnteredDate("");
+    setEnteredAmount("");
+    console.log(expenseData)
+  };
+
  
   return (
     <div className="main">
       <h1> EXPENSE MANAGER</h1>
       <div className="form-input">
         {/* input div */}
-        <form>
+        <form onSubmit={submitHandler}>
           {showHide === false ? (
             <div>
               <button
@@ -71,7 +81,8 @@ const Expenses = () => {
               <button className="input" onClick={showHideForm}>
                 cencel
               </button>
-              <button className="text-input  input" type="submit">
+              <button className="text-input  input" 
+              type="submit">
                 add expense
               </button>
             </div>
