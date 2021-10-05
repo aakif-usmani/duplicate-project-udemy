@@ -1,6 +1,6 @@
 .main {
   width: 95%;
-  background-color: rgb(245, 229, 248);
+  background-color: rgb(45, 1, 53);
   border: 1px solid #f1ccff;
   margin: 0 auto;
   border-radius: 10px;
@@ -17,13 +17,18 @@
   margin-top: 20px;
   /* height: 150px; */
 }
+
 .input{
   width: 180px;
   height: 30px;
   padding: 5px;
   margin: 20px ;
   border-radius: 5px ;
+  background-color: white;
   border: 1px solid rgb(253, 167, 167);
+}
+.input:hover{
+  background-color: pink;
 }
 .chart-main{
   width: 96%;
@@ -43,8 +48,31 @@
   border-radius: 10px;
   margin-top: 20px;
   margin-bottom: 20px;
-  height: 50px;
+  height: 70px;
 }
+.filter-text{
+  float: left;
+  margin: 30px;
+  font-family: 'Courier New', Courier, monospace;
+}
+.select-filter-year{
+  float: right ;
+  margin: 20px;
+  /* background-color: rgb(0, 0, 0); */
+  margin-bottom: 20px;
+  width: 100px;
+  height: 30px;
+  /* text-decoration-color: plum; */
+  border: 1px solid silver;
+  border-radius: 5px;
+  font-size: large;
+  font-family:'Courier New', Courier, monospace;
+  font-weight: 800;
+}
+.select-filter-year:hover{
+  background-color:powderblue;
+}
+
 .expense-list-main{
   width: 96%;
   background-color: rgb(253, 232, 241);
@@ -53,5 +81,13 @@
   border-radius: 10px;
   margin-top: 20px;
   margin-bottom: 20px;
+  height: 250px;
+}
+.listed-date{
   height: 150px;
+  width: 120px;
+  margin: 20px;
+  background-color: rgb(45, 1, 53);
+  border: 2px solid white;
+  border-radius: 8px;
 }
