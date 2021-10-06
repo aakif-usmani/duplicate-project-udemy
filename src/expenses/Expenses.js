@@ -32,8 +32,8 @@ const Expenses = () => {
   const [enteredAmount, setEnteredAmount] = useState("");
   const [enteredDate, setEnteredDate] = useState("");
   const [showHide, setShowHide] = useState(false);
-  const [filteredYear, setFilteredYear] = useState("2021");
-  const [listedExpenses,setListedExpenses] = useState(DUMMY_ESPENSES)
+  const [filteredYear, setFilteredYear] = useState("all");
+  const [expenses, setExpenses] = useState(DUMMY_ESPENSES);
 
   const showHideForm = () => {
     setShowHide(!showHide);
@@ -58,20 +58,29 @@ const Expenses = () => {
     setEnteredDate("");
     setEnteredAmount("");
     console.log(expenseData);
+    addListedExpensesHandler(expenseData)
   };
   const filterChangeHandler = (selectedYear) => {
-    setFilteredYear(selectedYear);
+    
+    setFilteredYear(selectedYear.target.value);
+    console.log(selectedYear);
   };
-  const mapfunction =(expense) => {return(
-    <div>
-        <div className="listed-date" >{expense.date.getDay()}</div>
-        <div className="listed-title">{expense.title}</div>
-        <div className="listed-amount">{expense.amount}</div>
-   </div>
-  )}
-  // const listedItems = (DUMMY_ESPENSES) => {
-  //   const listItem = DUMMY_ESPENSES.title.map("")
-  // }
+  let DateHandler = (date) => {
+    let day = date.getDate();
+    let month = date.toLocaleString("default", { month: "long" });
+    let year = date.getFullYear();
+    let dateConcatenate = day + "-" + month + "-" + year;
+    return dateConcatenate;
+  };
+  const addListedExpensesHandler = (expense2) => {
+    setExpenses((prevExpenses) => {
+      return [expense2, ...prevExpenses];
+    });
+  };
+
+  var xExpenses = (filteredYear === "all" ? expenses : expenses.filter((filter2)=>{
+    return filter2.date.getFullYear().toString()===filteredYear;
+  }));
   return (
     <div className="main">
       <h1> EXPENSE MANAGER</h1>
@@ -118,9 +127,9 @@ const Expenses = () => {
               ></input>
               <br />
               <button className="input" onClick={showHideForm}>
-                cencel
+                cancel
               </button>
-              <button className="text-input  input" type="submit">
+              <button className="text-input  input" type="submit"  >
                 add expense
               </button>
             </div>
@@ -141,49 +150,52 @@ const Expenses = () => {
           onChange={filterChangeHandler}
           value={filteredYear}
         >
-          <option className="select-option" value="2020">
-            2020
+          <option className="select-option" value={"all"}>
+            all
           </option>
-          <option className="select-option" value="2021">
-            2021
-          </option>
-          <option className="select-option" value="2022">
-            2022
-          </option>
-          <option className="select-option" value="2023">
-            2023
-          </option>
-          <option className="select-option" value="2024">
-            2024
-          </option>
+          {expenses.map((e)=>{ 
+            var ey =e.date.getFullYear().toString();
+            return(
+            <option className="select-option" value={ey}>
+            {ey}
+            </option>
+          )
+          })}
         </select>
       </div>
       <div className="expense-list-main">
         <p>expense list div</p>
-      
-        {
-        DUMMY_ESPENSES.map((expense,index) => {return(
-          <div>
-              <div className="listed-date" >{expense.date.getDay()}</div>
-              <div className="listed-title">{expense.title}</div>
-              <div className="listed-amount">{expense.amount}</div>
-         </div>
-        )}
-          /////
+
+        <div>
+          <table className="listed-table">
+            <tbody>
+              <tr>
+                <th>Date</th>
+                <th>Title</th>
+                <th>Amount</th>
+              </tr>
+              {xExpenses.map((expense, index) => {
+                
+                return (
+                  <tr key={index + expense.title}>
+                    <td>
+                      <div>{DateHandler(expense.date)}</div>
+                    </td>
+                    <td>
+                      <div>{expense.title}</div>
+                    </td>
+                    <td>
+                      <div>{expense.amount}</div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
          
-      
-        
-        ////
-        )
-        
-        
-        
-        };
         </div>
-        
-        
       </div>
-    
+    </div>
   );
 };
 
