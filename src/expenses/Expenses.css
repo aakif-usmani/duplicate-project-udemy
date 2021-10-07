@@ -1,3 +1,6 @@
+.main-heading{
+  color: rgb(253, 232, 241) ;
+}
 .main {
   width: 95%;
   background-color: rgb(45, 1, 53);
@@ -40,6 +43,28 @@
   margin-bottom: 20px;
   height: 150px;
 }
+.chartDiv-binder{
+  display: flex ;
+  width: 100%;
+  padding-top: 20px;
+  margin: 0 auto;
+  justify-content: center;
+}
+.chart-vertical-div{
+  width: 15px;
+  height: 120px;
+  border-radius: 10px;
+  background-color: rgb(45, 1, 53);
+  border: 1px solid silver;
+  margin: 0 auto;
+  text-align: center;
+  color: #2d093a;
+  text-orientation: upright;
+  writing-mode: vertical-rl;
+}
+.month-name{
+  margin-left: 65px
+}
 .filter-main{
   width: 96%;
   background-color: rgb(253, 232, 241);
@@ -53,16 +78,17 @@
 .filter-text{
   float: left;
   margin: 30px;
+  color: rgb(45, 1, 53) ;
   font-family: 'Courier New', Courier, monospace;
 }
 .select-filter-year{
   float: right ;
   margin: 20px;
-  /* background-color: rgb(0, 0, 0); */
+  color:rgb(253, 232, 241);
+  background-color: rgb(45, 1, 53);
   margin-bottom: 20px;
   width: 100px;
   height: 30px;
-  /* text-decoration-color: plum; */
   border: 1px solid silver;
   border-radius: 5px;
   font-size: large;
@@ -70,7 +96,7 @@
   font-weight: 800;
 }
 .select-filter-year:hover{
-  background-color:powderblue;
+  background-color:pink;
 }
 
 .expense-list-main{
@@ -85,8 +111,9 @@
 }
 .listed-table{
   width: 98%;
+  color: rgb(45, 1, 53) ;
   margin: 0 auto;
   padding: 10px ;
-  border: 2px solid white;
+  /* border: 2px solid white; */
   border-radius: 8px;
 }

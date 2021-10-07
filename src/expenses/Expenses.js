@@ -28,13 +28,14 @@ const Expenses = () => {
       date: new Date(2021, 5, 12),
     },
   ];
+  
   const [enteredTitle, setEnteredTitle] = useState("");
   const [enteredAmount, setEnteredAmount] = useState("");
   const [enteredDate, setEnteredDate] = useState("");
   const [showHide, setShowHide] = useState(false);
   const [filteredYear, setFilteredYear] = useState("all");
   const [expenses, setExpenses] = useState(DUMMY_ESPENSES);
-
+  
   const showHideForm = () => {
     setShowHide(!showHide);
   };
@@ -68,6 +69,7 @@ const Expenses = () => {
   let DateHandler = (date) => {
     let day = date.getDate();
     let month = date.toLocaleString("default", { month: "long" });
+    // console.log(month)
     let year = date.getFullYear();
     let dateConcatenate = day + "-" + month + "-" + year;
     return dateConcatenate;
@@ -77,13 +79,20 @@ const Expenses = () => {
       return [expense2, ...prevExpenses];
     });
   };
-
+  
+  const monthCount = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
   var xExpenses = (filteredYear === "all" ? expenses : expenses.filter((filter2)=>{
-    return filter2.date.getFullYear().toString()===filteredYear;
+    if (filter2.date.getFullYear().toString()===filteredYear){
+      var month=filter2.toLocaleString("default", { month: "number" });
+      return true
+    }
+    else{
+      return false
+    }
   }));
   return (
     <div className="main">
-      <h1> EXPENSE MANAGER</h1>
+      <h1 className="main-heading"> EXPENSE MANAGER</h1>
       <div className="form-input">
         {/* input div */}
         <form onSubmit={submitHandler}>
@@ -138,7 +147,21 @@ const Expenses = () => {
       </div>
 
       <div className="chart-main">
-        <p>chart div</p>
+        {/* <p>chart div</p> */}
+        {/* <div className="chartDiv-binder">
+          <div className="chart-vertical-div"><p className="month-name" >Jan</p></div>
+          <div className="chart-vertical-div"><p>Fab</p></div>
+          <div className="chart-vertical-div"><p>Mar</p></div>
+          <div className="chart-vertical-div"><p>Apr</p></div>
+          <div className="chart-vertical-div"><p>May</p></div>
+          <div className="chart-vertical-div"><p>Jun</p></div>
+          <div className="chart-vertical-div"><p>Jul</p></div>
+          <div className="chart-vertical-div"><p>Aug</p></div>
+          <div className="chart-vertical-div"><p>Sep</p></div>
+          <div className="chart-vertical-div"><p>Oct</p></div>
+          <div className="chart-vertical-div"><p>Nov</p></div>
+          <div className="chart-vertical-div"><p>Dec</p></div>
+        </div> */}
       </div>
 
       <div className="filter-main">
@@ -163,8 +186,9 @@ const Expenses = () => {
           })}
         </select>
       </div>
+      
       <div className="expense-list-main">
-        <p>expense list div</p>
+        {/* <p>expense list div</p> */}
 
         <div>
           <table className="listed-table">
