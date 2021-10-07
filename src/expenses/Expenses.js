@@ -28,14 +28,14 @@ const Expenses = () => {
       date: new Date(2021, 5, 12),
     },
   ];
-  
+
   const [enteredTitle, setEnteredTitle] = useState("");
   const [enteredAmount, setEnteredAmount] = useState("");
   const [enteredDate, setEnteredDate] = useState("");
   const [showHide, setShowHide] = useState(false);
   const [filteredYear, setFilteredYear] = useState("all");
   const [expenses, setExpenses] = useState(DUMMY_ESPENSES);
-  
+
   const showHideForm = () => {
     setShowHide(!showHide);
   };
@@ -58,18 +58,14 @@ const Expenses = () => {
     setEnteredTitle("");
     setEnteredDate("");
     setEnteredAmount("");
-    console.log(expenseData);
-    addListedExpensesHandler(expenseData)
+    addListedExpensesHandler(expenseData);
   };
   const filterChangeHandler = (selectedYear) => {
-    
     setFilteredYear(selectedYear.target.value);
-    console.log(selectedYear);
   };
   let DateHandler = (date) => {
     let day = date.getDate();
     let month = date.toLocaleString("default", { month: "long" });
-    // console.log(month)
     let year = date.getFullYear();
     let dateConcatenate = day + "-" + month + "-" + year;
     return dateConcatenate;
@@ -79,22 +75,38 @@ const Expenses = () => {
       return [expense2, ...prevExpenses];
     });
   };
-  
-  const monthCount = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-  var xExpenses = (filteredYear === "all" ? expenses : expenses.filter((filter2)=>{
-    if (filter2.date.getFullYear().toString()===filteredYear){
-      var month=filter2.toLocaleString("default", { month: "number" });
-      return true
-    }
-    else{
-      return false
-    }
-  }));
+  var totalExpense = 0;
+  const monthCount = [
+    { label: "Jan", value: 0 },
+    { label: "feb", value: 0 },
+    { label: "Mar", value: 0 },
+    { label: "Apr", value: 0 },
+    { label: "May", value: 0 },
+    { label: "Jun", value: 0 },
+    { label: "Jul", value: 0 },
+    { label: "Aug", value: 0 },
+    { label: "Sep", value: 0 },
+    { label: "Oct", value: 0 },
+    { label: "Nov", value: 0 },
+    { label: "Dec", value: 0 },
+  ];
+  var xExpenses =
+    filteredYear === "all"
+      ? expenses
+      : expenses.filter((filter2) => {
+          if (filter2.date.getFullYear().toString() === filteredYear) {
+            var month = filter2.date.getMonth();
+            monthCount[month].value += filter2.amount;
+            totalExpense += filter2.amount;
+            return true;
+          } else {
+            return false;
+          }
+        });
   return (
     <div className="main">
       <h1 className="main-heading"> EXPENSE MANAGER</h1>
       <div className="form-input">
-        {/* input div */}
         <form onSubmit={submitHandler}>
           {showHide === false ? (
             <div>
@@ -138,7 +150,7 @@ const Expenses = () => {
               <button className="input" onClick={showHideForm}>
                 cancel
               </button>
-              <button className="text-input  input" type="submit"  >
+              <button className="text-input  input" type="submit">
                 add expense
               </button>
             </div>
@@ -146,24 +158,25 @@ const Expenses = () => {
         </form>
       </div>
 
-      <div className="chart-main">
-        {/* <p>chart div</p> */}
-        {/* <div className="chartDiv-binder">
-          <div className="chart-vertical-div"><p className="month-name" >Jan</p></div>
-          <div className="chart-vertical-div"><p>Fab</p></div>
-          <div className="chart-vertical-div"><p>Mar</p></div>
-          <div className="chart-vertical-div"><p>Apr</p></div>
-          <div className="chart-vertical-div"><p>May</p></div>
-          <div className="chart-vertical-div"><p>Jun</p></div>
-          <div className="chart-vertical-div"><p>Jul</p></div>
-          <div className="chart-vertical-div"><p>Aug</p></div>
-          <div className="chart-vertical-div"><p>Sep</p></div>
-          <div className="chart-vertical-div"><p>Oct</p></div>
-          <div className="chart-vertical-div"><p>Nov</p></div>
-          <div className="chart-vertical-div"><p>Dec</p></div>
-        </div> */}
-      </div>
+      {filteredYear !== "all" && (
+        <div className="chart-main">
+          <div className="chartDiv-binder" key={filteredYear}>
+            {monthCount.map((month, index) =>{ 
+              return (
+                <div className="chart-vertical-div" key={index}>
+                  <div
+                    className="chart-fill"
+                    style={{ height: (month.value / totalExpense) * 100 + "%" }}
+                  ></div>
+                  <p className="month-name">{month.label}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
+     
       <div className="filter-main">
         <p className="filter-text">
           <b>Filter Year </b>
@@ -172,24 +185,23 @@ const Expenses = () => {
           className="select-filter-year"
           onChange={filterChangeHandler}
           value={filteredYear}
+          key={""}
         >
           <option className="select-option" value={"all"}>
             all
           </option>
-          {expenses.map((e)=>{ 
-            var ey =e.date.getFullYear().toString();
-            return(
-            <option className="select-option" value={ey}>
-            {ey}
-            </option>
-          )
+          {expenses.map((e, index) => {
+            var ey = e.date.getFullYear().toString();
+            return (
+              <option key={index} className="select-option" value={ey}>
+                {ey}
+              </option>
+            );
           })}
         </select>
       </div>
-      
-      <div className="expense-list-main">
-        {/* <p>expense list div</p> */}
 
+      <div className="expense-list-main">
         <div>
           <table className="listed-table">
             <tbody>
@@ -199,7 +211,6 @@ const Expenses = () => {
                 <th>Amount</th>
               </tr>
               {xExpenses.map((expense, index) => {
-                
                 return (
                   <tr key={index + expense.title}>
                     <td>
@@ -216,7 +227,6 @@ const Expenses = () => {
               })}
             </tbody>
           </table>
-         
         </div>
       </div>
     </div>

@@ -62,6 +62,14 @@
   text-orientation: upright;
   writing-mode: vertical-rl;
 }
+
+.chart-fill{
+  width: 100%;
+  background-color:burlywood;
+  border-radius: 10px;
+  /* rotate: ; */
+
+}
 .month-name{
   margin-left: 65px
 }
@@ -116,4 +124,13 @@
   padding: 10px ;
   /* border: 2px solid white; */
   border-radius: 8px;
+}
+
+
+
+
+
+.temp{
+  width: 100%;
+  border: 1px solid black;
 }
