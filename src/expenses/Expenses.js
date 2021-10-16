@@ -59,6 +59,7 @@ const Expenses = () => {
     setEnteredDate("");
     setEnteredAmount("");
     addListedExpensesHandler(expenseData);
+    console.log(expenseData)
   };
   const filterChangeHandler = (selectedYear) => {
     setFilteredYear(selectedYear.target.value);
