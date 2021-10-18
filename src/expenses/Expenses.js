@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Expenses.css";
 
 const Expenses = () => {
@@ -32,6 +32,7 @@ const Expenses = () => {
   const [enteredTitle, setEnteredTitle] = useState("");
   const [enteredAmount, setEnteredAmount] = useState("");
   const [enteredDate, setEnteredDate] = useState("");
+  const [expensesYears, setExpensesYears] = useState([]);
   const [showHide, setShowHide] = useState(false);
   const [filteredYear, setFilteredYear] = useState("all");
   const [expenses, setExpenses] = useState(DUMMY_ESPENSES);
@@ -59,7 +60,7 @@ const Expenses = () => {
     setEnteredDate("");
     setEnteredAmount("");
     addListedExpensesHandler(expenseData);
-    console.log(expenseData)
+    console.log(expenseData);
   };
   const filterChangeHandler = (selectedYear) => {
     setFilteredYear(selectedYear.target.value);
@@ -104,6 +105,16 @@ const Expenses = () => {
             return false;
           }
         });
+  useEffect(() => {
+    console.log("state changed");
+    let xYears = [];
+    expenses.filter((item) => {
+      if (xYears.indexOf(item.date.getFullYear()) == -1) {
+        xYears.push(item.date.getFullYear());
+      }
+    });
+    setExpensesYears(xYears);
+  }, [expenses]);
   return (
     <div className="main">
       <h1 className="main-heading"> EXPENSE MANAGER</h1>
@@ -162,7 +173,7 @@ const Expenses = () => {
       {filteredYear !== "all" && (
         <div className="chart-main">
           <div className="chartDiv-binder" key={filteredYear}>
-            {monthCount.map((month, index) =>{ 
+            {monthCount.map((month, index) => {
               return (
                 <div className="chart-vertical-div" key={index}>
                   <div
@@ -177,29 +188,30 @@ const Expenses = () => {
         </div>
       )}
 
-     
       <div className="filter-main">
         <p className="filter-text">
           <b>Filter Year </b>
         </p>
-        <select
-          className="select-filter-year"
-          onChange={filterChangeHandler}
-          value={filteredYear}
-          key={""}
-        >
-          <option className="select-option" value={"all"}>
-            all
-          </option>
-          {expenses.map((e, index) => {
-            var ey = e.date.getFullYear().toString();
-            return (
-              <option key={index} className="select-option" value={ey}>
-                {ey}
-              </option>
-            );
-          })}
-        </select>
+        {expensesYears.length > 0 && (
+          <select
+            className="select-filter-year"
+            onChange={filterChangeHandler}
+            value={filteredYear}
+            key={""}
+          >
+            <option className="select-option" value={"all"}>
+              all
+            </option>
+            {expensesYears.map((e, index) => {
+              var ey = e.toString();
+              return (
+                <option key={index} className="select-option" value={ey}>
+                  {ey}
+                </option>
+              );
+            })}
+          </select>
+        )}
       </div>
 
       <div className="expense-list-main">
